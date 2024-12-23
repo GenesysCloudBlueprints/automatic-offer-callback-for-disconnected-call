@@ -1,0 +1,145 @@
+inboundShortMessage:
+  name: "{{flow_name}}"
+  division: "{{division}}"
+  startUpRef: "/inboundShortMessage/states/state[Initial State_10]"
+  defaultLanguage: "{{default_language}}"
+  supportedLanguages:
+    en-us:
+      defaultLanguageSkill:
+        noValue: true
+  variables:
+    - stringVariable:
+        name: Flow.PhoneNumber
+        initialValue:
+          noValue: true
+        isOutput: false
+    - stringVariable:
+        name: Flow.SMSMSG
+        initialValue:
+          noValue: true
+        isOutput: false
+  settingsErrorHandling:
+    errorHandling:
+      disconnect:
+        none: true
+  states:
+    - state:
+        name: Initial State
+        refId: Initial State_10
+        actions:
+          - updateData:
+              name: Update Data
+              statements:
+                - string:
+                    variable: Flow.SMSMSG
+                    value:
+                      exp: ToDisplayString(Message.Message.body)
+                - string:
+                    variable: Flow.PhoneNumber
+                    value:
+                      exp: ToDisplayString(Message.Message.senderAddress)
+          - decision:
+              name: Decision
+              condition:
+                exp: Flow.SMSMSG == "AGENT" OR Flow.SMSMSG == "Agent" OR Flow.SMSMSG == "agent"
+              outputs:
+                "yes":
+                  actions:
+                    - sendResponse:
+                        name: Send Response
+                        messageBody:
+                          lit: Connecting you to an agent now
+                    - transferToAcd:
+                        name: Transfer to ACD
+                        targetQueue:
+                          lit:
+                            name: Agnes Test Queue
+                        acdSkills:
+                          - acdSkill:
+                              lit:
+                                name: Agnes_Skill
+                        priority:
+                          lit: 0
+                        preferredAgents:
+                          noValue: true
+                        languageSkill:
+                          noValue: true
+                        directAgent:
+                          noValue: true
+                "no":
+                  actions:
+                    - decision:
+                        name: Decision
+                        condition:
+                          exp: Flow.SMSMSG == "CALLBACK" OR Flow.SMSMSG == "Callback" OR Flow.SMSMSG == "callback"
+                        outputs:
+                          "yes":
+                            actions:
+                              - callData:
+                                  name: Call Data Action
+                                  timeout:
+                                    lit:
+                                      minutes: 1
+                                  category:
+                                    {{data_action_category}}:
+                                      dataAction:
+                                        {{create_callback_data_action_name}}:
+                                          inputs:
+                                            callbackNumber:
+                                              exp: ToDisplayString(Flow.PhoneNumber)
+                                            queueId:
+                                              lit: a6f03f8d-bb75-4bcf-8304-2d73a0f21572
+                                          failureOutputs:
+                                            errorCode:
+                                              noValue: true
+                                            status:
+                                              noValue: true
+                                            correlationId:
+                                              noValue: true
+                                            entityId:
+                                              noValue: true
+                                            entityName:
+                                              noValue: true
+                                            userMessage:
+                                              noValue: true
+                                            userParamsMessage:
+                                              noValue: true
+                                            userParams.key:
+                                              noValue: true
+                                            userParams.value:
+                                              noValue: true
+                                            details.errorCode:
+                                              noValue: true
+                                            details.fieldName:
+                                              noValue: true
+                                            details.entityId:
+                                              noValue: true
+                                            details.entityName:
+                                              noValue: true
+                                  outputs:
+                                    success:
+                                      actions:
+                                        - sendResponse:
+                                            name: Send Response
+                                            messageBody:
+                                              lit: We will call you back as soon as possible
+                                    failure:
+                                      actions:
+                                        - sendResponse:
+                                            name: Send Response
+                                            messageBody:
+                                              lit: Callback failed
+                                    timeout:
+                                      actions:
+                                        - sendResponse:
+                                            name: Send Response
+                                            messageBody:
+                                              lit: Callback Timed out
+                          "no":
+                            actions:
+                              - sendResponse:
+                                  name: Send Response
+                                  messageBody:
+                                    exp: "Trim(Append(\n    \"You typed\", \n    \" \", \n    ToDisplayString(Flow.SMSMSG)))"
+          - disconnect:
+              name: Disconnect

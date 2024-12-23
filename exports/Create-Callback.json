@@ -1,0 +1,43 @@
+{
+  "name": "Create Callback - JVM - Exported 2024-12-05 @ 13:39",
+  "integrationType": "purecloud-data-actions",
+  "actionType": "custom",
+  "config": {
+    "request": {
+      "requestUrlTemplate": "/api/v2/conversations/callbacks",
+      "requestType": "POST",
+      "headers": {},
+      "requestTemplate": "{\"queueId\": \"${input.queueId}\",\"callbackNumbers\": [\"${input.callbackNumber}\"]}"
+    },
+    "response": {
+      "translationMap": {},
+      "translationMapDefaults": {},
+      "successTemplate": "${rawResult}"
+    }
+  },
+  "contract": {
+    "input": {
+      "inputSchema": {
+        "title": "Request",
+        "type": "object",
+        "properties": {
+          "callbackNumber": {
+            "type": "string"
+          },
+          "queueId": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "output": {
+      "successSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      }
+    }
+  },
+  "secure": false
+}

@@ -1,0 +1,106 @@
+workflow:
+  name: "{{flow_name}}"
+  division: "{{division}}"
+  startUpRef: "/workflow/states/state[Initial State_10]"
+  defaultLanguage: en-us
+  supportedLanguages:
+    en-us:
+      none: true
+  variables:
+    - stringVariable:
+        name: Flow.ani
+        initialValue:
+          noValue: true
+        isInput: true
+        isOutput: false
+    - stringVariable:
+        name: Flow.conversationId
+        initialValue:
+          noValue: true
+        isInput: true
+        isOutput: false
+    - stringVariable:
+        name: Flow.PhoneNumber
+        initialValue:
+          noValue: true
+        isInput: true
+        isOutput: false
+  settingsErrorHandling:
+    errorHandling:
+      endWorkflow:
+        none: true
+  states:
+    - state:
+        name: Initial State
+        refId: Initial State_10
+        variables:
+          - stringVariable:
+              name: State.CallersPhoneNumber
+              initialValue:
+                noValue: true
+              isInput: false
+              isOutput: false
+        actions:
+          - wait:
+              name: Wait
+              trimDurationNearMaxRunningTime:
+                lit: false
+              duration:
+                lit:
+                  seconds: 10
+          - updateData:
+              name: Update Data
+              statements:
+                - string:
+                    variable: State.CallersPhoneNumber
+                    value:
+                      exp: right(Flow.ani,12)
+          - callData:
+              name: Call Data Action
+              timeout:
+                lit:
+                  minutes: 1
+              category:
+                {{data_action_category}}:
+                  dataAction:
+                    {{agentless_sms_data_action_name}}:
+                      inputs:
+                        fromAddress:
+                          lit: "+12056248960"
+                        toAddress:
+                          exp: State.CallersPhoneNumber
+                        toAddressMessengerType:
+                          lit: sms
+                        textBody:
+                          exp: "Trim(Append(\n    \"It appears you have been disconnected.If you would like us to call you back just type CALLBACK.\", \n    \" \", \n    \"If you want to SMS with an agent just type AGENT\"))"
+                      failureOutputs:
+                        errorCode:
+                          noValue: true
+                        status:
+                          noValue: true
+                        correlationId:
+                          noValue: true
+                        entityId:
+                          noValue: true
+                        entityName:
+                          noValue: true
+                        userMessage:
+                          noValue: true
+                        userParamsMessage:
+                          noValue: true
+                        userParams.key:
+                          noValue: true
+                        userParams.value:
+                          noValue: true
+                        details.errorCode:
+                          noValue: true
+                        details.fieldName:
+                          noValue: true
+                        details.entityId:
+                          noValue: true
+                        details.entityName:
+                          noValue: true
+          - endWorkflow:
+              name: End Workflow
+              exitReason:
+                noValue: true
