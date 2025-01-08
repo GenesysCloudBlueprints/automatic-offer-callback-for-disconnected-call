@@ -1,3 +1,6 @@
+// Create a Queue
+
+
 // Create a Data Action integration
 module "data_action" {
   source                          = "git::https://github.com/GenesysCloudDevOps/public-api-data-actions-integration-module?ref=main"
@@ -22,12 +25,13 @@ module "create_callback_data_action" {
   integration_id     = "${module.data_action.integration_id}"
 }
 
-// Configures the architect inbound call flow
+// Configures the architect workflow and inbound call flow
 module "archy_flow" {
   source                           = "./modules/flow"
   data_action_category             = module.data_action.integration_name
   agentless_sms_data_action_name   = module.agentless_sms_data_action.action_name
   create_callback_data_action_name = module.create_callback_data_action.action_name
+  sms_number                       = var.sms_number
 }
 
 // Create a Trigger

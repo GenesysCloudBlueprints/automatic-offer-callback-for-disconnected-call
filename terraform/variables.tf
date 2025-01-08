@@ -12,3 +12,8 @@ variable "dnis" {
   type        = string
   description = "Add your configured DID Number with the format `tel:+11234567890`"
 }
+
+variable "sms_number" {
+  type        = string
+  description = "Add your purchased SMS number with the format `+11234567890`"
+}

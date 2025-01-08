@@ -53,11 +53,11 @@ inboundShortMessage:
                         name: Transfer to ACD
                         targetQueue:
                           lit:
-                            name: Agnes Test Queue
+                            name: SMS Queue
                         acdSkills:
                           - acdSkill:
                               lit:
-                                name: Agnes_Skill
+                                name: SMS_Skill
                         priority:
                           lit: 0
                         preferredAgents:

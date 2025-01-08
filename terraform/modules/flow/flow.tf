@@ -7,6 +7,7 @@ resource "genesyscloud_flow" "workflow" {
     default_language               = "en-us"
     data_action_category           = var.data_action_category
     agentless_sms_data_action_name = var.agentless_sms_data_action_name
+    sms_number                     = var.sms_number
   }
 }
 
