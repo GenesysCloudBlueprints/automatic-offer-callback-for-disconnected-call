@@ -20,5 +20,7 @@ resource "genesyscloud_flow" "inbound_call_flow" {
     default_language                 = "en-us"
     data_action_category             = var.data_action_category
     create_callback_data_action_name = var.create_callback_data_action_name
+    callback_queue                   = var.callback_queue
+    sms_queue                        = var.sms_queue
   }
 }

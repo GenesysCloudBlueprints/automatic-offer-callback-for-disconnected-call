@@ -61,6 +61,8 @@ Clone the [automatic-offer-callback-for-disconnected-call repository](https://gi
 * `client_secret`- The value of your OAuth Client secret using Client Credentials to be used for the data action integration.
 * `dnis` - The value of your configured DID Number with the format `tel:+11234567890`.
 * `sms_number` - The purchased SMS number with the format `+11234567890`.
+* `callback_queue` - The name of your configured queue for handling callbacks.
+* `sms_queue` - The name of your configured queue for accepting SMS interactions.
 
 The following is an example of the dev.auto.tfvars file.
 
@@ -69,6 +71,8 @@ client_id       = "your-client-id"
 client_secret   = "your-client-secret"
 dnis            = "tel:+10123456789"
 sms_number      = "+11234567890"
+callback_queue  = "callback-queue-name"
+sms_queue       = "sms-queue-name"
 ```
 
 ### Run Terraform

@@ -1,4 +1,4 @@
-resource "genesyscloud_processautomation_trigger" "example-trigger" {
+resource "genesyscloud_processautomation_trigger" "trigger" {
   name       = "Disconnected Call Trigger"
   topic_name = "v2.detail.events.conversation.{id}.customer.end"
   enabled    = true
@@ -18,12 +18,12 @@ resource "genesyscloud_processautomation_trigger" "example-trigger" {
     {
       "jsonPath" : "disconnectType",
       "operator" : "In",
-      "value" : ["UNKNOWN","SYSTEM","ERROR","OTHER","TIMEOUT","TRANSPORT_FAILURE","UNCALLABLE"]
+      "values" : ["UNKNOWN","SYSTEM","ERROR","OTHER","TIMEOUT","TRANSPORT_FAILURE","UNCALLABLE"]
     },
     {
       "jsonPath" : "dnis",
       "operator" : "In",
-      "value" : [var.dnis]
+      "values" : ["${var.dnis}"]
     }
   ])
   event_ttl_seconds = 60

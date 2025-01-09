@@ -66,7 +66,7 @@ workflow:
                     {{agentless_sms_data_action_name}}:
                       inputs:
                         fromAddress:
-                          lit: {{sms_number}}
+                          lit: "{{sms_number}}"
                         toAddress:
                           exp: State.CallersPhoneNumber
                         toAddressMessengerType:

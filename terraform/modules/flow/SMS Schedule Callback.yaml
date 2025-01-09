@@ -53,11 +53,7 @@ inboundShortMessage:
                         name: Transfer to ACD
                         targetQueue:
                           lit:
-                            name: SMS Queue
-                        acdSkills:
-                          - acdSkill:
-                              lit:
-                                name: SMS_Skill
+                            name: {{sms_queue}}
                         priority:
                           lit: 0
                         preferredAgents:
@@ -88,7 +84,7 @@ inboundShortMessage:
                                             callbackNumber:
                                               exp: ToDisplayString(Flow.PhoneNumber)
                                             queueId:
-                                              lit: a6f03f8d-bb75-4bcf-8304-2d73a0f21572
+                                              lit: {{callback_queue}}
                                           failureOutputs:
                                             errorCode:
                                               noValue: true

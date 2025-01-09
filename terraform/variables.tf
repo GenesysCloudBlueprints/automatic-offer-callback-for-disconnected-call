@@ -17,3 +17,13 @@ variable "sms_number" {
   type        = string
   description = "Add your purchased SMS number with the format `+11234567890`"
 }
+
+variable "callback_queue" {
+  type        = string
+  description = "The name of your configured queue for handling callbacks."
+}
+
+variable "sms_queue" {
+  type        = string
+  description = "The name of your configured queue for accepting SMS interactions."
+}
