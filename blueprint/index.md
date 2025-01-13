@@ -1,6 +1,6 @@
 ---
 title: Automatically offer callback for disconnetced voice interactions
-author: barrez.bert
+author: mark.lint
 indextype: blueprint
 icon: blueprint
 image: images/overview.png
