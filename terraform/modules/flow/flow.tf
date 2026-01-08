@@ -1,6 +1,6 @@
 resource "genesyscloud_flow" "workflow" {
   filepath = "${path.module}/Send SMS to Schedule Callback.yaml"
-  file_content_hash = filesha256("${path.module}/Send SMS to Schedule Callback.yaml")
+  
   substitutions = {
     flow_name                      = "Send SMS to Schedule Callback"
     division                       = "Home"
@@ -13,7 +13,7 @@ resource "genesyscloud_flow" "workflow" {
 
 resource "genesyscloud_flow" "inbound_call_flow" {
   filepath = "${path.module}/SMS Schedule Callback.yaml"
-  file_content_hash = filesha256("${path.module}/SMS Schedule Callback.yaml")
+ 
   substitutions = {
     flow_name                        = "SMS Schedule Callback"
     division                         = "Home"
